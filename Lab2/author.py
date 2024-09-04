@@ -8,6 +8,10 @@ class Author:
             book_list = ', '.join(self.books)
         else:
             book_list = 'No books'
+
+        # book_list = ', '.join(self.books) or 'No published books'
+        # this code does the same thing as code above. print 'No published books' if the variable is falsy value
+
         return f'Author Name: {self.name}\nPublished Books: {book_list}'
 
     def publish(self, title):
