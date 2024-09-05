@@ -3,6 +3,7 @@ from dataclasses import dataclass
 # with dataclass, python generate __init__, __str__ method automatically
 # overriding __str__ method is possible if you want to format the string differently
 
+# create Student class
 @dataclass
 class Student:
     name: str
@@ -18,3 +19,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# Add some comments in your code to compare the dataclass version to the "traditional" version.

@@ -15,12 +15,29 @@ class Author:
         return f'Author Name: {self.name}\nPublished Books: {book_list}'
 
     def publish(self, title):
-        self.books.append(title)
+
+        # When the publish method is called,
+        # print an error message if the book given has the same name as a book currently in the books list.
+        # Do not add the duplicate book. (In other words, make sure the Author object's book list doesn't already contain that name).
+
+        books_in_lowercase = []
+        for book in self.books:
+            books_in_lowercase.append(book.lower())
+
+        if title.lower() in books_in_lowercase:
+            print('This book is already in the published book list.')
+        else:
+            self.books.append(title)
 
 author1 = Author('Sally Rooney')
-author1.publish('Normal People')
-author1.publish('Conversations with Friends')
+
 print(author1)
 
-author2 = Author('Hyungna Lim')
-print(author2)
+author1.publish('Normal People')
+author1.publish('Conversations with Friends')
+
+print(author1)
+
+author1.publish('Normal People')
+
+print(author1)
