@@ -20,4 +20,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-# Add some comments in your code to compare the dataclass version to the "traditional" version.
+# Part3 question: compare the dataclass version to the "traditional" version.
+# Dataclass version is more readable in code, less typing.
+# You need to be aware that the dataclass will automatically generate string for each data,
+# so if you want to format the string, make sure to override __str__ method.
