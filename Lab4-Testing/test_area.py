@@ -40,3 +40,7 @@ class TestShapeAreas(TestCase):     # make sure to pass TestCase here
         self.assertEqual(0, area.triangle_area(7, 0))
         self.assertEqual(0, area.triangle_area(0, 0))
 
+    # Be aware! A test without assertion will be considered to be a passing test
+    # so it is passing but doesn't actually check for anything - bad testing
+    def test_without_assert(self):
+        area.triangle_area(6, 3)
