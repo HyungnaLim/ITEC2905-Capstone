@@ -4,35 +4,62 @@ from peewee import *
 
 db = SqliteDatabase('cats.sqlite')
 
-# define each field so that peewee can create entities to store data in a table
+# create objects & define each field so that peewee can create entities to store data in a table
 # peewee will also create auto incrementing integer for id
+class Owner(Model):
+    name = CharField()
+
+    class Meta:
+        database = db
+
+    def __str__(self):
+        return f'{self.id}: {self.name}'
+
+
 class Cat(Model):
     name = CharField()
     color = CharField()
     age = IntegerField()
+    owner = ForeignKeyField(Owner, backref='cats')  # relationship between tables
+    # backref - what is this object(Cat) refer to in the point of view of Owner
 
     class Meta:
         database = db
 
     # string method to display information of the object
     def __str__(self):
-        return f'{self.id}: {self.name}, {self.color}, {self.age}'
+        return f'{self.id}: {self.name}, {self.color}, {self.age}, Owner {self.owner}'
+
 
 db.connect()
-db.create_tables( [Cat] )   # square bracket here!
+db.create_tables( [Cat, Owner] )   # square bracket here!
 
 # pragma TABLE_INFO(cat) - sqlite command to inspect the table info
 
-Cat.delete().execute()  # clear the database table
+
+# clear data from table - just for testing
+Cat.delete().execute()
+Owner.delete().execute()
+
+
+# create data - make sure to save to insert into the table!
+sam = Owner(name='Sam')
+sam.save()
+
+kate = Owner(name='Kate')
+kate.save()
+
+jenny = Owner(name='Jenny')
+jenny.save()
 
 # adding Cat data to the database
-zoe = Cat(name='Zoe', color='Ginger', age=3)
-zoe.save()  # make sure to save!
+zoe = Cat(name='Zoe', color='Ginger', age=3, owner=sam)
+zoe.save()
 
-holly = Cat(name='Holly', color='Tabby', age=5)
+holly = Cat(name='Holly', color='Tabby', age=5, owner=kate)
 holly.save()
 
-fluffy = Cat(name='Fluffy', color='Black', age=1)
+fluffy = Cat(name='Fluffy', color='Black', age=1, owner=jenny)
 fluffy.save()
 
 cats = Cat.select()     # query object, can't access each cat by index
@@ -40,6 +67,9 @@ for cat in cats:
     print(cat)
 
 list_of_cats = list(cats)   # regular Python list, can access each object with index
+print(list_of_cats)
+
+print(fluffy.owner.name)    # print the name of fluffy's owner
 
 # update data
 fluffy.age = 2
@@ -60,7 +90,11 @@ for cat in cats:
 
 print(f'{rows_modified} row updated!')
 
-buzz = Cat(name='Buzz', color='Gray', age=3)
+mark = Owner(name='Mark')
+mark.save()
+
+# buzz = Cat(name='Buzz', color='Gray', age=3)  - This will cause error cus of no owner
+buzz = Cat(name='Buzz', color='Gray', age=3, owner=mark)
 buzz.save()
 
 cats_who_are_3 = Cat.select().where(Cat.age == 3)
