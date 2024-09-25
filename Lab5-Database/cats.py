@@ -1,5 +1,3 @@
-from traceback import print_tb
-
 from peewee import *
 
 db = SqliteDatabase('cats.sqlite')
