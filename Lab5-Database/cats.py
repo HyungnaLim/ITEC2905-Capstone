@@ -1,3 +1,5 @@
+from traceback import print_tb
+
 from peewee import *
 
 db = SqliteDatabase('cats.sqlite')
@@ -90,3 +92,28 @@ print(cat_1)
 # use this method instead so that it returns none when the matching data does not exist
 cat_100 = Cat.get_or_none(Cat.id == 100)
 print(cat_100)
+
+# count
+total = Cat.select().count()
+print(total)
+
+# count with where clause
+total_cats_who_are_5 = Cat.select().where(Cat.age == 3).count()
+print(total_cats_who_are_5)
+
+# sort - ascending order
+cats_by_name = Cat.select().order_by(Cat.name, Cat.age)
+print(list(cats_by_name))
+
+# sort - descending order
+cats_by_age = Cat.select().order_by(Cat.age.desc())
+print(list(cats_by_age))
+
+# limit
+first_3 = Cat.select().order_by(Cat.name).limit(3)
+print(list(first_3))
+
+# delete
+rows_deleted = Cat.delete().where(Cat.name == 'Holly').execute()
+print(rows_deleted, list(Cat.select()))
+
